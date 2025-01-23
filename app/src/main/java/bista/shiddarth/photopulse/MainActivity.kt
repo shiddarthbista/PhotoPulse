@@ -14,11 +14,17 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.VerticalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
@@ -56,15 +62,17 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun PhotoItemList(imagesList: List<Image>) {
-    // PagerState to keep track of the page index
-    val pagerState = rememberPagerState(pageCount = { imagesList.size })
+    val pagerState = rememberPagerState(
+        initialPage = Int.MAX_VALUE / 2,
+        pageCount = { Int.MAX_VALUE }
+    )
 
     VerticalPager(
         state = pagerState,
         modifier = Modifier.fillMaxSize()
     ) { page ->
-        // Get the image for the current page
-        val photo = imagesList[page]
+        val actualPage = page % imagesList.size
+        val photo = imagesList[actualPage]
         PhotoItem(resId = photo.resourceId)
     }
 }
@@ -88,6 +96,15 @@ fun PhotoItem(resId: Int) {
             //TODO: Decide Crop or Fit. Crop cuts image but gets full screen. Fit has empty spaces
             contentScale = ContentScale.Crop
         )
+//        IconButton(
+//            onClick = { /* Handle like action */ },
+//            modifier = Modifier.align(Alignment.BottomEnd)
+//        ) {
+//            Icon(
+//                imageVector = Icons.Default.FavoriteBorder,
+//                contentDescription = "Like"
+//            )
+//        }
     }
 }
 
