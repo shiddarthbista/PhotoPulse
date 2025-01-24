@@ -9,27 +9,19 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.VerticalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
 import bista.shiddarth.photopulse.model.Image
-import bista.shiddarth.photopulse.ui.theme.PhotoPulseTheme
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -42,21 +34,10 @@ class MainActivity : ComponentActivity() {
             delay(1000)
             keepSplashScreen = false
         }
-        super.onCreate(savedInstanceState)
 
+        super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContent {
-            PhotoPulseTheme {
-                val imageList = listOf(
-                    Image(1, R.drawable.city),
-                    Image(2, R.drawable.girlpar),
-                    Image(3, R.drawable.headphones),
-                    Image(4, R.drawable.flowers),
-                    Image(5, R.drawable.moon)
-                )
-                PhotoItemList(imageList)
-            }
-        }
+        setContent { PhotoPulseApp() }
     }
 }
 
@@ -70,6 +51,7 @@ fun PhotoItemList(imagesList: List<Image>) {
     VerticalPager(
         state = pagerState,
         modifier = Modifier.fillMaxSize()
+            .padding(bottom = 56.dp)
     ) { page ->
         val actualPage = page % imagesList.size
         val photo = imagesList[actualPage]
