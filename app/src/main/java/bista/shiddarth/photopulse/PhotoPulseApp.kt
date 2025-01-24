@@ -1,5 +1,6 @@
 package bista.shiddarth.photopulse
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
@@ -12,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -90,6 +92,6 @@ fun BottomNavigationBar(buttons: List<RioBottomNavItemData>) {
         fabSize = 75.dp,
         barHeight = 85.dp,
         selectedItemColor = Color.White,
-        fabBackgroundColor = Color(R.color.fab_color),
+        fabBackgroundColor = colorResource(id = R.color.fab_color)
     )
 }
