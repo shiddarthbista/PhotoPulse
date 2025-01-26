@@ -1,42 +1,22 @@
 package bista.shiddarth.photopulse
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import bista.shiddarth.photopulse.model.BottomNavItem
-import bista.shiddarth.photopulse.model.Image
-import bista.shiddarth.photopulse.ui.theme.PhotoPulseTheme
+import bista.shiddarth.photopulse.screens.HomeScreen
 import com.rahad.riobottomnavigation.composables.RioBottomNavItemData
 import com.rahad.riobottomnavigation.composables.RioBottomNavigation
-
-@Preview
-@Composable
-fun HomeScreen() {
-    PhotoPulseTheme {
-        val imageList = listOf(
-            Image(1, R.drawable.city),
-            Image(2, R.drawable.girlpar),
-            Image(3, R.drawable.headphones),
-            Image(4, R.drawable.flowers),
-            Image(5, R.drawable.moon)
-        )
-        PhotoItemList(imageList)
-    }
-}
 
 @Composable
 fun PhotoPulseApp() {
@@ -65,8 +45,9 @@ fun PhotoPulseApp() {
         modifier = Modifier.fillMaxSize()
     ) { innerPadding ->
         // Handle the screen content based on the selected index
-        ScreenContent(selectedIndex.intValue, modifier = Modifier
-            .padding(innerPadding)
+        ScreenContent(
+            selectedIndex.intValue, modifier = Modifier
+                .padding(innerPadding)
         )
     }
 }
@@ -92,6 +73,6 @@ fun BottomNavigationBar(buttons: List<RioBottomNavItemData>) {
         fabSize = 75.dp,
         barHeight = 85.dp,
         selectedItemColor = Color.White,
-        fabBackgroundColor = colorResource(id = R.color.fab_color)
+        fabBackgroundColor = colorResource(id = R.color.fab_color),
     )
 }

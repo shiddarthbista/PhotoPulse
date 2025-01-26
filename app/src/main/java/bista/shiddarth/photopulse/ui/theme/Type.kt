@@ -1,4 +1,4 @@
-package com.example.ui.theme
+package bista.shiddarth.photopulse.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.font.FontFamily
@@ -15,7 +15,7 @@ val provider = GoogleFont.Provider(
 
 val bodyFontFamily = FontFamily(
     Font(
-        googleFont = GoogleFont("Roboto"),
+        googleFont = GoogleFont("Rasa"),
         fontProvider = provider,
     )
 )
@@ -23,6 +23,20 @@ val bodyFontFamily = FontFamily(
 val displayFontFamily = FontFamily(
     Font(
         googleFont = GoogleFont("Poppins"),
+        fontProvider = provider,
+    )
+)
+
+val shadowsFontFamily = FontFamily(
+    Font(
+        googleFont = GoogleFont("Outfit"),
+        fontProvider = provider,
+    )
+)
+
+val fancyFont = FontFamily(
+    Font(
+        googleFont = GoogleFont("Shadows Into Light Two"),
         fontProvider = provider,
     )
 )
