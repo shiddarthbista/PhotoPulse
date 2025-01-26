@@ -36,7 +36,7 @@ val shadowsFontFamily = FontFamily(
 
 val fancyFont = FontFamily(
     Font(
-        googleFont = GoogleFont("Shadows Into Light Two"),
+        googleFont = GoogleFont("Walter Turncoat"),
         fontProvider = provider,
     )
 )
