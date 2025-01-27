@@ -12,23 +12,32 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.VerticalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import bista.shiddarth.photopulse.R
 import bista.shiddarth.photopulse.model.Post
 import bista.shiddarth.photopulse.ui.theme.PhotoPulseTheme
@@ -44,25 +53,40 @@ fun HomeScreen() {
             Post(
                 1,
                 R.drawable.city,
+                R.drawable.avatar1,
                 "Shiddarth",
+                "Bista",
                 "2025/01/23",
                 "City of Dreams",
                 listOf("buildings")
             ),
-            Post(2, R.drawable.girlpar, "Selena", "2024/11/22", "Girl ", listOf("girldinner")),
+            Post(
+                2,
+                R.drawable.girlpar,
+                R.drawable.avatar2,
+                "Selena",
+                "Gomez",
+                "2024/11/22",
+                "Girl ",
+                listOf("girldinner")
+            ),
             Post(
                 3,
                 R.drawable.headphones,
+                null,
                 "Ramu",
+                "Kaka",
                 "2023/08/10",
                 "Headphones",
-                listOf("music", "beats","drake","almonds")
+                listOf("music", "beats", "drake", "almonds")
             ),
-            Post(4, R.drawable.flowers, "Xiaoyou", "2025/01/03", "Flower garden"),
+            Post(4, R.drawable.flowers, null, "Xiaoyou", "Shao", "2025/01/03", "Flower garden"),
             Post(
                 5,
                 R.drawable.moon,
+                R.drawable.avatar1,
                 "Neal",
+                "Armstrong",
                 "2025/01/13",
                 "One small step for man , big step for manking",
                 listOf("moon")
@@ -112,6 +136,14 @@ fun PhotoItem(post: Post) {
             contentScale = ContentScale.Crop
         )
 
+        ProfilePicAndName(
+            profilePic = post.profilePicId,
+            firstName = post.firstName,
+            lastName = post.lastName,
+            modifier = Modifier
+                .padding(WindowInsets.statusBars.asPaddingValues())
+        )
+
         Column(
             modifier = Modifier
                 .fillMaxWidth(0.9f)
@@ -123,22 +155,10 @@ fun PhotoItem(post: Post) {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.Start
             ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(
-                        text = post.uploadedBy,
-                        style = MaterialTheme.typography.bodyLarge,
-                        fontWeight = FontWeight.Bold,
-                        color = GraphicsColor.White
-                    )
-                    Text(
-                        text = " · ",
-                        color = GraphicsColor.DarkGray
-                    )
-                    Text(
-                        text = post.uploadedAt,
-                        color = GraphicsColor.DarkGray
-                    )
-                }
+                Text(
+                    text = post.uploadedAt,
+                    color = GraphicsColor.White
+                )
             }
 
             // Description
@@ -151,7 +171,9 @@ fun PhotoItem(post: Post) {
             // Hashtags
             FlowRow(
                 maxItemsInEachRow = 3,
-                horizontalArrangement = Arrangement.spacedBy(2.dp)
+                horizontalArrangement = Arrangement.spacedBy(2.dp),
+                modifier = Modifier.padding(bottom = 8.dp)
+
             ) {
                 post.hashtags.forEach { hashtag ->
                     Box(
@@ -181,25 +203,111 @@ fun PhotoItem(post: Post) {
 @Composable
 fun PhotoItemListPreview() {
     val postsList = listOf(
-        Post(1, R.drawable.city, "Shiddarth", "2025/01/23", "City of Dreams", listOf("buildings")),
-        Post(2, R.drawable.girlpar, "Selena", "2024/11/22", "Girl ", listOf("girldinner")),
+        Post(
+            1,
+            R.drawable.city,
+            R.drawable.avatar1,
+            "Shiddarth",
+            "Bista",
+            "2025/01/23",
+            "City of Dreams",
+            listOf("buildings")
+        ),
+        Post(
+            2,
+            R.drawable.girlpar,
+            null,
+            "Selena",
+            "Gomez",
+            "2024/11/22",
+            "Girl ",
+            listOf("girldinner")
+        ),
         Post(
             3,
             R.drawable.headphones,
-            "Ramu",
+            R.drawable.avatar1,
+            "Ramu", "Kaka",
             "2023/08/10",
             "Headphones",
             listOf("music", "beats")
         ),
-        Post(4, R.drawable.flowers, "Xiaoyou", "2025/01/03", "Flower garden"),
+        Post(4, R.drawable.flowers, null, "Xiaoyou", "zing", "2025/01/03", "Flower garden"),
         Post(
             5,
             R.drawable.moon,
-            "Neal",
+            R.drawable.avatar2,
+            "Neal", "Armstrong",
             "2025/01/13",
             "One small step for man , big step for manking",
             listOf("moon")
         )
     )
     PhotoItemList(postsLists = postsList)
+}
+
+@Composable
+fun ProfilePicAndName(profilePic: Int?, firstName: String, lastName: String, modifier: Modifier) {
+    Row(
+        modifier = Modifier
+            .padding(top = 60.dp, start = 10.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        if (profilePic != null) {
+            Image(
+                painter = painterResource(id = profilePic),
+                contentDescription = "$firstName $lastName's profile picture",
+                modifier = Modifier
+                    .size(40.dp)
+                    .clip(CircleShape)
+                    .background(GraphicsColor.Gray),
+                contentScale = ContentScale.Crop
+            )
+        } else InitialAvatar(firstName, lastName)
+
+        Spacer(modifier = Modifier.width(10.dp))
+
+        Text(
+            text = "$firstName $lastName",
+            style = MaterialTheme.typography.bodyLarge,
+            fontWeight = FontWeight.Bold,
+            fontSize = 20.sp,
+            color = GraphicsColor.White
+        )
+    }
+}
+
+@Preview
+@Composable
+fun ProfilePicAndNamePreview() {
+    ProfilePicAndName(
+        profilePic = R.drawable.avatar1,
+        firstName = "Shiddarth",
+        lastName = "Bista",
+        modifier = Modifier
+    )
+}
+
+@Composable
+fun InitialAvatar(firstName: String, lastName: String) {
+    Box(
+        modifier = Modifier
+            .size(40.dp)
+            .clip(CircleShape)
+            .background(GraphicsColor.Magenta),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = "${firstName.first()}${lastName.first()}",
+            color = GraphicsColor.White,
+            style = MaterialTheme.typography.bodyLarge,
+            fontWeight = FontWeight.Bold
+        )
+    }
+}
+
+@Composable
+@Preview
+fun InitialAvatarPreview() {
+    InitialAvatar(firstName = "Shiddarth", lastName = "Bista")
 }
