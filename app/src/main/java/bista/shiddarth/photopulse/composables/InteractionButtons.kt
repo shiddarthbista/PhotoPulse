@@ -1,7 +1,5 @@
 package bista.shiddarth.photopulse.composables
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -25,11 +23,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import bista.shiddarth.photopulse.R
 
 @Composable
 fun InteractionButtons(
@@ -48,10 +44,12 @@ fun InteractionButtons(
         Column(
             modifier = Modifier
                 .align(Alignment.BottomEnd),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
+         //   verticalArrangement = Arrangement.spacedBy((-35).dp)
+
         ) {
             LikeButton(count = 2) { }
-            MessageButton(count = 3) { }
+            MessageButton(count = 3, emptyList()) { }
             ShareButton(count = 3) { }
         }
     }
@@ -80,42 +78,6 @@ fun LikeButton(
                 imageVector = Icons.Filled.Favorite,
                 contentDescription = null,
                 tint = if (isClicked) Color.Red else Color.White,
-                modifier = Modifier.size(35.dp)
-            )
-        }
-        Text(
-            text = clickCount.toString(),
-            color = Color.White,
-            style = MaterialTheme.typography.displaySmall,
-            fontSize = 15.sp,
-            modifier = Modifier.offset(y = (-20).dp)
-        )
-    }
-}
-
-@Composable
-fun MessageButton(
-    count: Int,
-    onClick: () -> Unit
-) {
-    var clickCount by rememberSaveable { mutableIntStateOf(count) }
-    var isClicked by remember { mutableStateOf(false) }
-
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        IconButton(onClick = {
-            isClicked = !isClicked
-            if (isClicked) {
-                clickCount++
-            } else {
-                clickCount--
-            }
-        }) {
-            Icon(
-                painter = painterResource(id = R.drawable.ic_comment),
-                contentDescription = null,
-                tint = Color.White,
                 modifier = Modifier.size(35.dp)
             )
         }
@@ -169,6 +131,6 @@ fun ShareButton(
 @Composable
 fun InteractionButtonPreview() {
     LikeButton(2) { }
-    MessageButton(count = 5) { }
+    MessageButton(count = 5, emptyList()) { }
     ShareButton(count = 5) { }
 }
