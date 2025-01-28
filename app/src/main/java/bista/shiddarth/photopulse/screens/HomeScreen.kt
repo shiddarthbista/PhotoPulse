@@ -39,6 +39,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import bista.shiddarth.photopulse.R
+import bista.shiddarth.photopulse.composables.InteractionButtons
 import bista.shiddarth.photopulse.model.Post
 import bista.shiddarth.photopulse.ui.theme.PhotoPulseTheme
 import bista.shiddarth.photopulse.ui.theme.fancyFont
@@ -189,6 +190,15 @@ fun PhotoItem(post: Post) {
                     }
                 }
             }
+        }
+
+        InteractionButtons(
+            likes = 2,
+            comments = 3,
+            shares = 2,
+            onLikeClick = { /*TODO*/ },
+            onCommentClick = { /*TODO*/ }) {
+
         }
     }
 }
