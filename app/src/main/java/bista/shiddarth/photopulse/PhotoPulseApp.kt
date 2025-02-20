@@ -12,9 +12,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.unit.dp
 import bista.shiddarth.photopulse.model.BottomNavItem
+import bista.shiddarth.photopulse.screens.ExploreScreen
 import bista.shiddarth.photopulse.screens.HomeScreen
+import bista.shiddarth.photopulse.screens.ProfileScreen
 import com.rahad.riobottomnavigation.composables.RioBottomNavItemData
 import com.rahad.riobottomnavigation.composables.RioBottomNavigation
 
@@ -56,8 +59,8 @@ fun PhotoPulseApp() {
 fun ScreenContent(selectedIndex: Int, modifier: Modifier = Modifier) {
     when (selectedIndex) {
         0 -> HomeScreen()
-        1 -> Text(text = "asd")
-        2 -> Text(text = "profile")
+        1 -> ExploreScreen()
+        2 -> ProfileScreen()
         3 -> Text("asd")
     }
 }
