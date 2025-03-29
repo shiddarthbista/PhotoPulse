@@ -79,6 +79,10 @@ git clone https://github.com/shiddarthbista/PhotoPulse.git
     *   Click the "Run" button (the green play icon) in Android Studio.
     *   Select your emulator or connected device from the list.
     *   The app will be built and launched on the selected device.
+  
+    6. **Download APK and use on Android Device:**
+         * Download the APK from [here](https://github.com/shiddarthbista/PhotoPulse/tree/master/app/src/main/java/bista/shiddarth/photopulse/apk)
+         * Run on your Android Device
 
 ## Further Development
 
