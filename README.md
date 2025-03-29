@@ -14,6 +14,16 @@
 
 PhotoPulse is an Android application that allows users to capture, view, and share photos with ease. The app provides a streamlined experience for taking pictures using the device's camera, selecting images from the gallery, and then sharing those photos with friends and family through various social media platforms. The app is built using Kotlin and Jetpack Compose, following modern Android development practices.
 
+## Screenshots
+<img src="https://github.com/user-attachments/assets/403ec4c4-3e35-4b10-a897-37cc3cbacd31" width="150" height="280">
+<img src="https://github.com/user-attachments/assets/ec179c85-742b-4066-b522-33bc32fc6ca0" width="150" height="280">
+<img src="https://github.com/user-attachments/assets/9b81ec11-c4c9-47ab-ad0c-8d695ec23757" width="150" height="280">
+<img src="https://github.com/user-attachments/assets/1bb89861-9858-482d-aa6e-9c0124c49872" width="150" height="280">
+
+### Status: 🚧 In progress 🚧
+
+PhotoPulse is still under development and some screens are not yet implemented.
+
 ## Features
 *   **View Photos:** Can scroll through infinite photos uploaded by other users of the app.
 *   **Capture Photos:** Take pictures directly within the app using the device's camera.
