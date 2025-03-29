@@ -1,4 +1,4 @@
-# PhotoPulse
+# <h1 align="center"> :camera: PhotoPulse :camera: </h1>
 
 ## Table of Contents
 
