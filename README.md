@@ -1,5 +1,15 @@
 # PhotoPulse
 
+## Table of Contents
+
+1.  [Overview](#overview)
+2.  [Features](#features)
+3.  [Technologies Used](#technologies-used)
+4.  [Prerequisites](#prerequisites)
+4.  [Running the App](#how-to-run-the-app-locally)
+5. [Further Development](#further-development)
+
+
 ## Overview
 
 PhotoPulse is an Android application that allows users to capture, view, and share photos with ease. The app provides a streamlined experience for taking pictures using the device's camera, selecting images from the gallery, and then sharing those photos with friends and family through various social media platforms. The app is built using Kotlin and Jetpack Compose, following modern Android development practices.
@@ -13,6 +23,8 @@ PhotoPulse is an Android application that allows users to capture, view, and sha
 *   **Bottom navigation bar:** the user can navigate between screens with a bottom navigation bar.
 
 ## Technologies Used
+[![Kotlin](https://img.shields.io/badge/Kotlin-%237F52FF.svg?logo=kotlin&logoColor=white)](#)
+[![Android](https://img.shields.io/badge/Android-3DDC84?logo=android&logoColor=white)](#)
 
 *   **Kotlin:** The primary programming language for Android development.
 *   **Jetpack Compose:** A modern declarative UI toolkit for building Android interfaces.
