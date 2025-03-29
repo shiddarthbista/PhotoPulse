@@ -6,6 +6,7 @@ import androidx.activity.SystemBarStyle
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,9 +29,15 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -40,10 +47,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import bista.shiddarth.photopulse.R
 import bista.shiddarth.photopulse.composables.InteractionButtons
+import bista.shiddarth.photopulse.composables.ProfilePicAndName
 import bista.shiddarth.photopulse.model.Post
 import bista.shiddarth.photopulse.ui.theme.PhotoPulseTheme
 import bista.shiddarth.photopulse.ui.theme.fancyFont
 import bista.shiddarth.photopulse.ui.theme.shadowsFontFamily
+import kotlinx.coroutines.delay
 import androidx.compose.ui.graphics.Color.Companion as GraphicsColor
 
 @Preview
@@ -120,6 +129,8 @@ fun PhotoItemList(postsLists: List<Post>) {
 @Composable
 fun PhotoItem(post: Post) {
     val context = LocalContext.current as ComponentActivity
+    var liked by remember { mutableStateOf(false) }
+
 
     context.enableEdgeToEdge(
         statusBarStyle = SystemBarStyle.dark(Color.BLACK),
@@ -127,7 +138,15 @@ fun PhotoItem(post: Post) {
     )
 
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize()
+            .pointerInput(Unit) {
+                detectTapGestures(
+                    onDoubleTap = {
+                        liked = !liked
+                    }
+                )
+            }
+        ,
     ) {
         Image(
             painter = painterResource(id = post.imageResourceId),
@@ -162,14 +181,13 @@ fun PhotoItem(post: Post) {
                 )
             }
 
-            // Description
             Text(
                 text = post.description,
                 modifier = Modifier.padding(top = 2.dp),
                 color = GraphicsColor.White,
                 fontFamily = shadowsFontFamily
             )
-            // Hashtags
+
             FlowRow(
                 maxItemsInEachRow = 3,
                 horizontalArrangement = Arrangement.spacedBy(2.dp),
@@ -198,16 +216,38 @@ fun PhotoItem(post: Post) {
             shares = 2,
             onLikeClick = { /*TODO*/ },
             onCommentClick = { /*TODO*/ }) {
+        }
 
+        if (liked) {
+            LikeAnimation()
         }
     }
 }
 
-//@Preview
-//@Composable
-//fun PhotoItemPreview() {
-//    PhotoItem(resId = R.drawable.city)
-//}
+@Composable
+fun LikeAnimation() {
+    var visible by remember { mutableStateOf(true) }
+
+    if (visible) {
+        LaunchedEffect(Unit) {
+            delay(600)
+            visible = false
+        }
+
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(GraphicsColor.Black.copy(alpha = 0.2f)),
+            contentAlignment = Alignment.Center
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.ic_like),
+                contentDescription = "Liked",
+                modifier = Modifier.size(100.dp)
+            )
+        }
+    }
+}
 
 @Preview
 @Composable
@@ -254,70 +294,4 @@ fun PhotoItemListPreview() {
         )
     )
     PhotoItemList(postsLists = postsList)
-}
-
-@Composable
-fun ProfilePicAndName(profilePic: Int?, firstName: String, lastName: String, modifier: Modifier) {
-    Row(
-        modifier = Modifier
-            .padding(top = 60.dp, start = 10.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        if (profilePic != null) {
-            Image(
-                painter = painterResource(id = profilePic),
-                contentDescription = "$firstName $lastName's profile picture",
-                modifier = Modifier
-                    .size(40.dp)
-                    .clip(CircleShape)
-                    .background(GraphicsColor.Gray),
-                contentScale = ContentScale.Crop
-            )
-        } else InitialAvatar(firstName, lastName)
-
-        Spacer(modifier = Modifier.width(10.dp))
-
-        Text(
-            text = "$firstName $lastName",
-            style = MaterialTheme.typography.bodyLarge,
-            fontWeight = FontWeight.Bold,
-            fontSize = 20.sp,
-            color = GraphicsColor.White
-        )
-    }
-}
-
-@Preview
-@Composable
-fun ProfilePicAndNamePreview() {
-    ProfilePicAndName(
-        profilePic = R.drawable.avatar1,
-        firstName = "Shiddarth",
-        lastName = "Bista",
-        modifier = Modifier
-    )
-}
-
-@Composable
-fun InitialAvatar(firstName: String, lastName: String) {
-    Box(
-        modifier = Modifier
-            .size(40.dp)
-            .clip(CircleShape)
-            .background(GraphicsColor.Magenta),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = "${firstName.first()}${lastName.first()}",
-            color = GraphicsColor.White,
-            style = MaterialTheme.typography.bodyLarge,
-            fontWeight = FontWeight.Bold
-        )
-    }
-}
-
-@Composable
-@Preview
-fun InitialAvatarPreview() {
-    InitialAvatar(firstName = "Shiddarth", lastName = "Bista")
 }

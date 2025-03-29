@@ -17,6 +17,6 @@ sealed class BottomNavItem(val route: String, val label: String, val icon: Image
     data object Home : BottomNavItem("home", "Home", Icons.Outlined.Home)
     data object Explore : BottomNavItem("explore", "Explore", Icons.Outlined.Search)
     data object AddPhoto : BottomNavItem("add_photo", "Add Photo", Icons.Outlined.AddCircle)
-    data object Notifications : BottomNavItem("notifications", "asdasdasd", Icons.Outlined.Notifications)
+    data object Notifications : BottomNavItem("notifications", "Notifs", Icons.Outlined.Notifications)
     data object Profile : BottomNavItem("profile", "Profile", Icons.Outlined.Person)
 }

@@ -1,5 +1,6 @@
 package bista.shiddarth.photopulse.composables
 
+import android.content.Intent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,9 +24,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat.startActivity
+import bista.shiddarth.photopulse.R
 
 @Composable
 fun InteractionButtons(
@@ -45,7 +49,7 @@ fun InteractionButtons(
             modifier = Modifier
                 .align(Alignment.BottomEnd),
             horizontalAlignment = Alignment.CenterHorizontally,
-         //   verticalArrangement = Arrangement.spacedBy((-35).dp)
+            //   verticalArrangement = Arrangement.spacedBy((-35).dp)
 
         ) {
             LikeButton(count = 2) { }
@@ -98,6 +102,7 @@ fun ShareButton(
 ) {
     var clickCount by rememberSaveable { mutableIntStateOf(count) }
     var isClicked by remember { mutableStateOf(false) }
+    val context = LocalContext.current
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -109,6 +114,13 @@ fun ShareButton(
             } else {
                 clickCount--
             }
+            val shareIntent: Intent = Intent().apply {
+                action = Intent.ACTION_SEND
+                putExtra(Intent.EXTRA_STREAM, R.drawable.date)
+                type = "image/jpeg"
+            }
+            startActivity(context, Intent.createChooser(shareIntent, "Share image"), null)
+
         }) {
             Icon(
                 imageVector = Icons.Filled.Share,
