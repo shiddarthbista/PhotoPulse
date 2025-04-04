@@ -5,7 +5,6 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import bista.shiddarth.photopulse.R
 import bista.shiddarth.photopulse.model.Post
-import java.util.UUID
 
 class PostViewModel : ViewModel() {
     private val _posts = mutableStateListOf<Post>()
