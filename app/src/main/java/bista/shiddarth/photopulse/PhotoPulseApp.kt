@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.provider.MediaStore
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -31,11 +32,13 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.lifecycle.viewmodel.compose.viewModel
 import bista.shiddarth.photopulse.model.BottomNavItem
 import bista.shiddarth.photopulse.screens.ExploreScreen
 import bista.shiddarth.photopulse.screens.HomeScreen
 import bista.shiddarth.photopulse.screens.NotificationScreen
 import bista.shiddarth.photopulse.screens.ProfileScreen
+import bista.shiddarth.photopulse.viewmodel.PostViewModel
 import com.rahad.riobottomnavigation.composables.RioBottomNavItemData
 import com.rahad.riobottomnavigation.composables.RioBottomNavigation
 import java.io.File
@@ -45,6 +48,8 @@ import java.util.Date
 @Composable
 fun PhotoPulseApp() {
     val selectedIndex = rememberSaveable { mutableIntStateOf(0) }
+    val postViewModel: PostViewModel = viewModel()
+
 
     val bottomNavItems = listOf(
         BottomNavItem.Home,
@@ -64,20 +69,21 @@ fun PhotoPulseApp() {
 
     Scaffold(
         bottomBar = {
-            BottomNavigationBar(buttons = buttons)
+            BottomNavigationBar(buttons = buttons, postViewModel = postViewModel)
         },
         modifier = Modifier.fillMaxSize()
     ) { innerPadding ->
         ScreenContent(
-            selectedIndex.intValue
+            selectedIndex.intValue,
+            postViewModel
         )
     }
 }
 
 @Composable
-fun ScreenContent(selectedIndex: Int) {
+fun ScreenContent(selectedIndex: Int,postViewModel: PostViewModel) {
     when (selectedIndex) {
-        0 -> HomeScreen()
+        0 -> HomeScreen(postViewModel)
         1 -> ExploreScreen()
         2 -> ProfileScreen()
         3 -> NotificationScreen()
@@ -85,7 +91,7 @@ fun ScreenContent(selectedIndex: Int) {
 }
 
 @Composable
-fun BottomNavigationBar(buttons: List<RioBottomNavItemData>) {
+fun BottomNavigationBar(buttons: List<RioBottomNavItemData>, postViewModel: PostViewModel) {
     val context = LocalContext.current
     var imageUri by remember { mutableStateOf<Uri?>(null) }
     var cameraUri by remember { mutableStateOf<Uri?>(null) }
@@ -97,8 +103,11 @@ fun BottomNavigationBar(buttons: List<RioBottomNavItemData>) {
         onResult = { success ->
             if (success) {
                 imageUri = cameraUri
-                // Handle the taken picture (e.g., display it, save it, etc.)
-                // You can use the 'imageUri' here
+                imageUri?.let {
+                    postViewModel.addPostFromUri(it)
+                    Toast.makeText(context, "Photo uploaded 📷", Toast.LENGTH_SHORT).show()
+                }
+                showDialog = false
             }
         }
     )
@@ -127,8 +136,11 @@ fun BottomNavigationBar(buttons: List<RioBottomNavItemData>) {
                 val selectedImageUri = result.data?.data
                 if (selectedImageUri != null) {
                     imageUri = selectedImageUri
-                    // Handle the selected image from the gallery
-                    // You can use the 'imageUri' here
+                    imageUri?.let {
+                        postViewModel.addPostFromUri(it)
+                        Toast.makeText(context, "Photo uploaded 📷", Toast.LENGTH_SHORT).show()
+                    }
+                    showDialog = false
                 }
             }
         }

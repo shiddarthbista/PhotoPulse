@@ -12,8 +12,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,12 +19,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.VerticalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -36,15 +31,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import bista.shiddarth.photopulse.R
 import bista.shiddarth.photopulse.composables.InteractionButtons
 import bista.shiddarth.photopulse.composables.ProfilePicAndName
@@ -52,57 +44,17 @@ import bista.shiddarth.photopulse.model.Post
 import bista.shiddarth.photopulse.ui.theme.PhotoPulseTheme
 import bista.shiddarth.photopulse.ui.theme.fancyFont
 import bista.shiddarth.photopulse.ui.theme.shadowsFontFamily
+import bista.shiddarth.photopulse.viewmodel.PostViewModel
 import kotlinx.coroutines.delay
 import androidx.compose.ui.graphics.Color.Companion as GraphicsColor
+import coil3.compose.AsyncImage
+import coil3.request.ImageRequest
+import coil3.request.crossfade
 
-@Preview
 @Composable
-fun HomeScreen() {
+fun HomeScreen(viewModel: PostViewModel) {
     PhotoPulseTheme {
-        val postsList = listOf(
-            Post(
-                1,
-                R.drawable.city,
-                R.drawable.avatar1,
-                "Shiddarth",
-                "Bista",
-                "2025/01/23",
-                "City of Dreams",
-                listOf("buildings")
-            ),
-            Post(
-                2,
-                R.drawable.girlpar,
-                R.drawable.avatar2,
-                "Selena",
-                "Gomez",
-                "2024/11/22",
-                "Girl ",
-                listOf("girldinner")
-            ),
-            Post(
-                3,
-                R.drawable.headphones,
-                null,
-                "Ramu",
-                "Kaka",
-                "2023/08/10",
-                "Headphones",
-                listOf("music", "beats", "drake", "almonds")
-            ),
-            Post(4, R.drawable.flowers, null, "Xiaoyou", "Shao", "2025/01/03", "Flower garden"),
-            Post(
-                5,
-                R.drawable.moon,
-                R.drawable.avatar1,
-                "Neal",
-                "Armstrong",
-                "2025/01/13",
-                "One small step for man , big step for manking",
-                listOf("moon")
-            )
-        )
-        PhotoItemList(postsList)
+        PhotoItemList(viewModel.posts)
     }
 }
 
@@ -148,8 +100,11 @@ fun PhotoItem(post: Post) {
             }
         ,
     ) {
-        Image(
-            painter = painterResource(id = post.imageResourceId),
+        AsyncImage(
+            model = ImageRequest.Builder(context)
+                .data(post.imageUri ?: post.imageResourceId)
+                .crossfade(true)
+                .build(),
             contentDescription = "Photo",
             modifier = Modifier.fillMaxSize(),
             //TODO: Decide Crop or Fit. Crop cuts image but gets full screen. Fit has empty spaces
@@ -256,6 +211,7 @@ fun PhotoItemListPreview() {
         Post(
             1,
             R.drawable.city,
+            null,
             R.drawable.avatar1,
             "Shiddarth",
             "Bista",
@@ -267,6 +223,7 @@ fun PhotoItemListPreview() {
             2,
             R.drawable.girlpar,
             null,
+            null,
             "Selena",
             "Gomez",
             "2024/11/22",
@@ -276,16 +233,18 @@ fun PhotoItemListPreview() {
         Post(
             3,
             R.drawable.headphones,
+            null,
             R.drawable.avatar1,
             "Ramu", "Kaka",
             "2023/08/10",
             "Headphones",
             listOf("music", "beats")
         ),
-        Post(4, R.drawable.flowers, null, "Xiaoyou", "zing", "2025/01/03", "Flower garden"),
+        Post(4, R.drawable.flowers,null, null, "Xiaoyou", "zing", "2025/01/03", "Flower garden"),
         Post(
             5,
             R.drawable.moon,
+            null,
             R.drawable.avatar2,
             "Neal", "Armstrong",
             "2025/01/13",
