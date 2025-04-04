@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -28,7 +27,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.content.ContextCompat.startActivity
 import bista.shiddarth.photopulse.R
 
 @Composable
@@ -40,6 +38,12 @@ fun InteractionButtons(
     onCommentClick: () -> Unit,
     onShareClick: () -> Unit
 ) {
+    val comments = mutableListOf(
+        Comments("Bill", "Gates", "Great pics man !!")
+    )
+
+    var likeCount by remember { mutableIntStateOf(3) }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -52,46 +56,10 @@ fun InteractionButtons(
             //   verticalArrangement = Arrangement.spacedBy((-35).dp)
 
         ) {
-            LikeButton(count = 2) { }
-            MessageButton(count = 3, emptyList()) { }
+            LikeIcon(45, likeCount, 25) { likeCount = it }
+            MessageButton(count = 3, comments) { }
             ShareButton(count = 3) { }
         }
-    }
-}
-
-@Composable
-fun LikeButton(
-    count: Int,
-    onClick: () -> Unit
-) {
-    var clickCount by rememberSaveable { mutableIntStateOf(count) }
-    var isClicked by remember { mutableStateOf(false) }
-
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        IconButton(onClick = {
-            isClicked = !isClicked
-            if (isClicked) {
-                clickCount++
-            } else {
-                clickCount--
-            }
-        }) {
-            Icon(
-                imageVector = Icons.Filled.Favorite,
-                contentDescription = null,
-                tint = if (isClicked) Color.Red else Color.White,
-                modifier = Modifier.size(35.dp)
-            )
-        }
-        Text(
-            text = clickCount.toString(),
-            color = Color.White,
-            style = MaterialTheme.typography.displaySmall,
-            fontSize = 15.sp,
-            modifier = Modifier.offset(y = (-20).dp)
-        )
     }
 }
 
@@ -119,7 +87,7 @@ fun ShareButton(
                 putExtra(Intent.EXTRA_STREAM, R.drawable.date)
                 type = "image/jpeg"
             }
-            startActivity(context, Intent.createChooser(shareIntent, "Share image"), null)
+            context.startActivity(Intent.createChooser(shareIntent, "Share image"), null)
 
         }) {
             Icon(
@@ -142,7 +110,7 @@ fun ShareButton(
 @Preview
 @Composable
 fun InteractionButtonPreview() {
-    LikeButton(2) { }
-    MessageButton(count = 5, emptyList()) { }
+    LikeIcon(45, 3, 45) { }
+    MessageButton(count = 5, mutableListOf()) { }
     ShareButton(count = 5) { }
 }
