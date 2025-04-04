@@ -3,16 +3,24 @@
 ## Table of Contents
 
 1.  [Overview](#overview)
-2.  [Features](#features)
-3.  [Technologies Used](#technologies-used)
-4.  [Prerequisites](#prerequisites)
-4.  [Running the App](#how-to-run-the-app-locally)
-5. [Further Development](#further-development)
+2.  [Screenshots](#screenshots)
+3.  [Features](#features)
+4.  [Technologies Used](#technologies-used)
+5.  [Prerequisites](#prerequisites)
+6.  [Running the App](#how-to-run-the-app-locally)
+7.  [Status](#status)
+8.  [Further Development](#further-development)
 
 
 ## Overview
 
 PhotoPulse is an Android application that allows users to capture, view, and share photos with ease. The app provides a streamlined experience for taking pictures using the device's camera, selecting images from the gallery, and then sharing those photos with friends and family through various social media platforms. The app is built using Kotlin and Jetpack Compose, following modern Android development practices.
+
+## Screenshots
+<img src="https://github.com/user-attachments/assets/403ec4c4-3e35-4b10-a897-37cc3cbacd31" width="150" height="280">
+<img src="https://github.com/user-attachments/assets/ec179c85-742b-4066-b522-33bc32fc6ca0" width="150" height="280">
+<img src="https://github.com/user-attachments/assets/9b81ec11-c4c9-47ab-ad0c-8d695ec23757" width="150" height="280">
+<img src="https://github.com/user-attachments/assets/1bb89861-9858-482d-aa6e-9c0124c49872" width="150" height="280">
 
 ## Features
 *   **View Photos:** Can scroll through infinite photos uploaded by other users of the app.
@@ -79,6 +87,21 @@ git clone https://github.com/shiddarthbista/PhotoPulse.git
     *   Click the "Run" button (the green play icon) in Android Studio.
     *   Select your emulator or connected device from the list.
     *   The app will be built and launched on the selected device.
+  
+    6. **Download APK and use on Android Device:**
+         * Download the APK from [here](https://github.com/shiddarthbista/PhotoPulse/tree/master/app/src/main/java/bista/shiddarth/photopulse/apk)
+         * Run on your Android Device
+      
+
+## Status
+ 🚧 In progress 🚧
+
+PhotoPulse is still under development and some screens are not yet implemented.
+
+- [ ] Comment Feature
+- [x] Sharing Feature
+- [ ] Add filter to Image
+- [ ] Search for User
 
 ## Further Development
 
