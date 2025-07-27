@@ -3,6 +3,7 @@ package bista.shiddarth.photopulse.screens
 import android.graphics.Color
 import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
+import androidx.activity.compose.LocalActivity
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -80,7 +81,7 @@ fun PhotoItemList(postsLists: List<Post>) {
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun PhotoItem(post: Post) {
-    val context = LocalContext.current as ComponentActivity
+    val context = LocalActivity.current as ComponentActivity
     var liked by remember { mutableStateOf(false) }
 
 
