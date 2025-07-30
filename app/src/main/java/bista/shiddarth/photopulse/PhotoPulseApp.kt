@@ -53,6 +53,7 @@ import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
+import bista.shiddarth.photopulse.filters.GpuFilterScreen
 import bista.shiddarth.photopulse.model.BottomNavItem
 import bista.shiddarth.photopulse.screens.ExploreScreen
 import bista.shiddarth.photopulse.screens.HomeScreen
@@ -117,6 +118,7 @@ fun BottomNavigationBar(buttons: List<RioBottomNavItemData>, postViewModel: Post
     var imageUri by remember { mutableStateOf<Uri?>(null) }
     var cameraUri by remember { mutableStateOf<Uri?>(null) }
     var showDialog by remember { mutableStateOf(false) }
+    var showFilterScreen by remember { mutableStateOf(false) }
 
     // Camera launcher
     val cameraLauncher = rememberLauncherForActivityResult(
@@ -124,10 +126,7 @@ fun BottomNavigationBar(buttons: List<RioBottomNavItemData>, postViewModel: Post
         onResult = { success ->
             if (success) {
                 imageUri = cameraUri
-                imageUri?.let {
-                    postViewModel.addPostFromUri(it)
-                    Toast.makeText(context, "Photo uploaded 📷", Toast.LENGTH_SHORT).show()
-                }
+                showFilterScreen = true
                 showDialog = false
             }
         }
@@ -157,10 +156,7 @@ fun BottomNavigationBar(buttons: List<RioBottomNavItemData>, postViewModel: Post
                 val selectedImageUri = result.data?.data
                 if (selectedImageUri != null) {
                     imageUri = selectedImageUri
-                    imageUri?.let {
-                        postViewModel.addPostFromUri(it)
-                        Toast.makeText(context, "Photo uploaded 📷", Toast.LENGTH_SHORT).show()
-                    }
+                    showFilterScreen = true
                     showDialog = false
                 }
             }
@@ -209,6 +205,21 @@ fun BottomNavigationBar(buttons: List<RioBottomNavItemData>, postViewModel: Post
                 val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
                 galleryLauncher.launch(galleryIntent)
                 showDialog = false
+            }
+        )
+    }
+
+    if (showFilterScreen && imageUri != null) {
+        GpuFilterScreen(
+            uri = imageUri!!,
+            onConfirm = { filteredUri,caption ->
+                postViewModel.addPostFromUri(filteredUri,caption)
+                showFilterScreen = false
+                imageUri = null
+            },
+            onBack = {
+                showFilterScreen = false
+                imageUri = null
             }
         )
     }

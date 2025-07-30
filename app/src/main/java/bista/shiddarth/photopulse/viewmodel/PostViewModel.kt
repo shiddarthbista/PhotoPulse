@@ -69,7 +69,7 @@ class PostViewModel : ViewModel() {
         )
     }
 
-    fun addPostFromUri(uri: Uri) {
+    fun addPostFromUri(uri: Uri, caption: String) {
         val newPost = Post(
             imageId = (100..200).random(),
             imageResourceId = 0,
@@ -78,7 +78,7 @@ class PostViewModel : ViewModel() {
             firstName = "Shiddarth",
             lastName = "Bista",
             uploadedAt = "Just now",
-            description = "New photo",
+            description = caption,
             hashtags = listOf("new")
         )
         _posts.add(0, newPost)
